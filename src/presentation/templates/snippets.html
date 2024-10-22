@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/codemirror/lib/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/codemirror/theme/dracula.css') }}">
+    <title>Snippets overview</title>
+</head>
+<body>
+    <h1>New Snippet</h1>
+    <form method="POST" action="/snippets">
+        {{ snippet_form.hidden_tag() }}
+
+        <!-- Render the snippet fields -->
+        <p>
+            {{ snippet_form.title.label }}<br>
+            {{ snippet_form.title(size=20) }}<br>
+            {% for error in snippet_form.title.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ snippet_form.description.label }}<br>
+            {{ snippet_form.description() }}
+        </p>
+        <p>
+            {{ snippet_form.code.label }}<br>
+            {{ snippet_form.code() }}
+        </p>
+        <ul>
+            {% for tag in snippet_form.tags %}
+                <li>tag: {{tag}}</li>
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for link in snippet_form.links %}
+                <li>link: {{link}}</li>
+            {% endfor %}
+        </ul>
+        <p>
+            {{ snippet_form.submit() }}
+        </p>
+    </form>
+    <h1>Snippets list</h1>
+    <div>
+    {% for snip in snippets %}
+        <div>
+            <h3>title: {{snip.title}}</h3>
+            <p>Description: {{snip.description}}</p>
+            <textarea class="code" name="{{snip.id}}" id="{{snip.id}}">{{snip.code}}</textarea>
+            <p id="tags_{{snip.id}}">tags:<br>
+                {% for tag in snip.tags %}
+                    {{tag}}<br>
+                {% endfor %}
+            </p>
+            <!-- <button onclick="add_tag()"></button> -->
+            <p id="links_{{snip.id}}">links:<br>
+                {% for link in snip.links %}
+                    {{link}}<br>
+                {% endfor %}
+            </p>
+        </div>
+    {% endfor %}
+    </div>
+    <script src="{{ url_for('static', filename='vendor/codemirror/lib/codemirror.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='vendor/codemirror/mode/python/python.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>
+</body>
+</html>

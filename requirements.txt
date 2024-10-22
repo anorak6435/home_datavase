@@ -1,3 +1,5 @@
 dearpygui
 flask
 flask-wtf
+pymongo
+pydantic
