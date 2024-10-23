@@ -61,6 +61,29 @@ def snippet_page():
     snippets = SnippetService.read_all_snippets()
     return render_template("snippets.html", snippets=snippets, snippet_form=snip_form)
 
+@app.route('/snippet/<id>', methods=['GET', 'POST'])
+def snippet_update_page(id):
+    snippet = SnippetService.read_one_by_id(id)
+    
+    if not snippet:
+        return render_template("not_found.html")
+    
+    snip_form = SnippetForm()
+    snip_form.title.data = snippet['title']
+    snip_form.description.data = snippet['description']
+    snip_form.code.data = snippet['code']
+    for idx, tag in enumerate(snippet['tags']):
+        if idx > 0: # because by default there is one entry
+            snip_form.tags.append_entry()
+        snip_form.tags[idx].data = tag
+    # snip_form.links.data = snippet['links']
+    for idx, link in enumerate(snippet['links']):
+        if idx > 0: # because by default there is one entry
+            snip_form.links.append_entry()
+        snip_form.links[idx].data = link
+
+    return render_template("snippet_update.html", snippet_form=snip_form)
+
 # Simple API route for demonstration
 @app.route('/api/greet', methods=['GET'])
 def greet():

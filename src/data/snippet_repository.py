@@ -18,10 +18,9 @@ class SnippetRepository:
         session.create(item=snippet)
 
     @staticmethod
-    def fetch_one(query: dict):
+    def fetch_one_by_id(id: str):
         session = MongoDB_Session(DATABASE, COLLECTION)
-        res = session.fetch_one(query)
+        res = session.fetch_one_by_id(id)
         if not res:
-            return snippet_helper(item=SnippetInDB(title="None Found", description="None Found", code="",tags="",links=""))
-
+            return None
         return snippet_helper(item=res)

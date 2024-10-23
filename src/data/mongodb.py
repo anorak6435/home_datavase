@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson import ObjectId
 
 
 class MongoDB_Session():
@@ -17,6 +18,6 @@ class MongoDB_Session():
             items.append(item)
         return items
     
-    def fetch_one(self, query: dict):
-        return self.collection.find_one(query)
+    def fetch_one_by_id(self, id : str):
+        return self.collection.find_one({"_id": ObjectId(id)})
         

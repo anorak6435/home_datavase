@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/codemirror/lib/codemirror.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/codemirror/theme/dracula.css') }}">
-    <title>Snippets overview</title>
+    <title>Snippet</title>
 </head>
 <body>
-    <a href="/">Back to dashboard</a>
-    <h1>New Snippet</h1>
-    <form method="POST" action="/snippets">
+    <a href="/snippets">Back to snippets</a>
+    <h3>Update snippet</h3>
+
+    <form action="/snippet/">
         {{ snippet_form.hidden_tag() }}
 
-        <!-- Render the snippet fields -->
+        <!-- Render the snipper fields -->
         <p>
             {{ snippet_form.title.label }}<br>
             {{ snippet_form.title(size=20) }}<br>
@@ -43,27 +44,6 @@
             {{ snippet_form.submit() }}
         </p>
     </form>
-    <h1>Snippets list</h1>
-    <div>
-    {% for snip in snippets %}
-        <div>
-            <h3><a href="/snippet/{{snip.id}}">title: {{snip.title}}</a></h3>
-            <p>Description: {{snip.description}}</p>
-            <textarea class="code" name="{{snip.id}}" id="{{snip.id}}">{{snip.code}}</textarea>
-            <p id="tags_{{snip.id}}">tags:<br>
-                {% for tag in snip.tags %}
-                    {{tag}}<br>
-                {% endfor %}
-            </p>
-            <!-- <button onclick="add_tag()"></button> -->
-            <p id="links_{{snip.id}}">links:<br>
-                {% for link in snip.links %}
-                    {{link}}<br>
-                {% endfor %}
-            </p>
-        </div>
-    {% endfor %}
-    </div>
     <script src="{{ url_for('static', filename='vendor/codemirror/lib/codemirror.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='vendor/codemirror/mode/python/python.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}" type="text/javascript"></script>

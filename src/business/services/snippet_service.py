@@ -12,5 +12,5 @@ class SnippetService:
         SnippetRepository.create_snippet(title, description, code, tags, links)
 
     @staticmethod
-    def read_one(query : dict):
-        return SnippetRepository.fetch_one(query)
+    def read_one_by_id(id : str):
+        return SnippetRepository.fetch_one_by_id(id)
